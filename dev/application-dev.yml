@@ -41,6 +41,12 @@ spring:
                     brokers: ${KAFKA_HOST}
                     auto-create-topics: true
                     headers[0]: spanId
+                    headers[1]: spanSampled
+                    headers[2]: spanProcessId
+                    headers[3]: spanParentSpanId
+                    headers[4]: spanTraceId
+                    headers[5]: spanName
+                    headers[6]: spanFlags
             bindings:
                 output:
                     destination: topic-jhipster
