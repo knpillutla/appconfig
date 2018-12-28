@@ -40,6 +40,7 @@ spring:
                 binder:
                     brokers: ${KAFKA_HOST}
                     auto-create-topics: true
+                    headers[0]:spanId
             bindings:
                 output:
                     destination: topic-jhipster
