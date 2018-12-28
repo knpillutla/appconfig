@@ -62,6 +62,11 @@ spring:
                     destination: user-out
                 ship-out:
                     destination: ship-out
+        config:
+            fail-fast: false
+            bus:
+                enabled: true
+                destination: springCloudBusOutput
        
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
