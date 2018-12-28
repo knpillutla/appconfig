@@ -39,9 +39,29 @@ spring:
             kafka:
                 binder:
                     brokers: ${KAFKA_HOST}
+                    auto-create-topics: true
+                    headers[0]:spanId
+                    headers[1]:spanSampled
+                    headers[2]:spanProcessId
+                    headers[3]:spanParentSpanId
+                    headers[4]:spanTraceId
+                    headers[5]:spanName
+                    headers[6]:spanFlags
             bindings:
                 output:
                     destination: topic-jhipster
+                customer-orders-out:
+                    destination: customer-orders-out
+                orders-out:
+                    destination: orders-out
+                inventory-out:
+                    destination: inventory-out
+                pick-out:
+                    destination: pick-out
+                pack-out:
+                    destination: user-out
+                ship-out:
+                    destination: ship-out
         
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
@@ -167,4 +187,13 @@ wms:
 shipengine:
     url: https://api.shipengine.com/v1/labels
     api-key: k3LXdQHLLOo3FVi91x9Iqj9GUZevB2VIubzByn8ZZ+I    
+            
+spring:
+    cloud:
+        config:
+            fail-fast: false
+            bus:
+                enabled: true
+                destination: springCloudBusOutput
+            
             
