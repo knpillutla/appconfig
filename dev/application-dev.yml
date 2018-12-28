@@ -151,3 +151,20 @@ jhipster:
 
 # application:
 
+#redis connections
+redis:
+    host=${REDIS_HOST}
+    port=${REDIS_PORT}
+
+# WMS Welcome Msg
+wms:
+    service:
+        ready:
+            msg: "Service is ready"
+        health:
+            msg: "Service is healthy"
+            
+shipengine:
+    url: https://api.shipengine.com/v1/labels
+    api-key: k3LXdQHLLOo3FVi91x9Iqj9GUZevB2VIubzByn8ZZ+I    
+            
