@@ -173,4 +173,4 @@ spring:
         stream:
             kafka:
                 binder:
-                    auto-create-topics: true
+                    headers[0]:spanId
