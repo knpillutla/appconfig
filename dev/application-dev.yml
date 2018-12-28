@@ -86,7 +86,7 @@ spring:
                 enabled: true
 
 server:
-    port: 6787
+    port: ${SERVER_PORT}
 
 # ===================================================================
 # JHipster specific properties
