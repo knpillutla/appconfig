@@ -168,3 +168,9 @@ shipengine:
     url: https://api.shipengine.com/v1/labels
     api-key: k3LXdQHLLOo3FVi91x9Iqj9GUZevB2VIubzByn8ZZ+I    
 
+spring:
+    cloud:
+        stream:
+            kafka:
+                binder:
+                    auto-create-topics: true
