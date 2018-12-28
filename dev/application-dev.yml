@@ -39,6 +39,7 @@ spring:
             kafka:
                 binder:
                     brokers: ${KAFKA_HOST}
+                    auto-create-topics: true
             bindings:
                 output:
                     destination: topic-jhipster
@@ -168,9 +169,3 @@ shipengine:
     url: https://api.shipengine.com/v1/labels
     api-key: k3LXdQHLLOo3FVi91x9Iqj9GUZevB2VIubzByn8ZZ+I    
 
-spring:
-    cloud:
-        stream:
-            kafka:
-                binder:
-                    headers[0]:spanId
