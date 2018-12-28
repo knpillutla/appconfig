@@ -38,16 +38,16 @@ spring:
         stream:
             kafka:
                 binder:
-                    brokers: localhost
-                    zk-nodes: localhost
+                    brokers: ${KAFKA_HOST}
+                    auto-create-topics: true
             bindings:
                 output:
                     destination: topic-jhipster
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:postgresql://localhost:5432/postgres
-        username: postgres
-        password: postgres
+        url: jdbc:postgresql://${POSTGRES_HOST}/${POSTGRES_DB}
+        username: ${POSTGRES_USER}
+        password: ${POSTGRES_PWD}
         hikari:
             auto-commit: false
     jpa:
