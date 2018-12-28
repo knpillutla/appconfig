@@ -40,9 +40,36 @@ spring:
                 binder:
                     brokers: ${KAFKA_HOST}
                     auto-create-topics: true
+                    headers[0]:spanId
+                    headers[1]:spanSampled
+                    headers[2]:spanProcessId
+                    headers[3]:spanParentSpanId
+                    headers[4]:spanTraceId
+                    headers[5]:spanName
+                    headers[6]:spanFlags
             bindings:
                 output:
                     destination: topic-jhipster
+                user-out:
+                    destination: user-out
+                customer-orders-out:
+                    destination: customer-orders-out
+                orders-out:
+                    destination: orders-out
+                inventory-out:
+                    destination: inventory-out
+                pick-out:
+                    destination: pick-out
+                pack-out:
+                    destination: user-out
+                ship-out:
+                    destination: ship-out
+        config:
+            fail-fast: false
+            bus:
+                enabled: true
+                destination: springCloudBusOutput
+        
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
         url: jdbc:postgresql://${POSTGRES_HOST}/${POSTGRES_DB}
@@ -88,6 +115,9 @@ spring:
 server:
     port: ${SERVER_PORT}
 
+shipengine:
+    url: https://api.shipengine.com/v1/labels
+    api-key: k3LXdQHLLOo3FVi91x9Iqj9GUZevB2VIubzByn8ZZ+I    
 # ===================================================================
 # JHipster specific properties
 #
