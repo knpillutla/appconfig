@@ -50,7 +50,19 @@ spring:
             bindings:
                 output:
                     destination: topic-jhipster
-        
+                customer-orders-out:
+                    destination: customer-orders-out
+                orders-out:
+                    destination: orders-out
+                inventory-out:
+                    destination: inventory-out
+                pick-out:
+                    destination: pick-out
+                pack-out:
+                    destination: user-out
+                ship-out:
+                    destination: ship-out
+       
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
         url: jdbc:postgresql://${POSTGRES_HOST}/${POSTGRES_DB}
