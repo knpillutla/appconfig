@@ -18,7 +18,7 @@ logging:
         ROOT: INFO
         io.github.jhipster: INFO
         com.threedsoft.shipping: INFO
-
+        org.springframework.boot.autoconfigure: ERROR
 spring:
     profiles:
         active: dev
