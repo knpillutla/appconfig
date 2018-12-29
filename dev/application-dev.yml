@@ -89,6 +89,7 @@ spring:
             hibernate.cache.hazelcast.instance_name: shipping
             hibernate.cache.use_minimal_puts: true
             hibernate.cache.hazelcast.use_lite_member: true
+            hibernate.jdbc.lob.non_contextual_creation: true
     liquibase:
         contexts: dev
     mail:
