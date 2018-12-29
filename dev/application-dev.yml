@@ -54,6 +54,7 @@ spring:
                     destination: customer-orders-out
                 orders-out:
                     destination: orders-out
+                    contentType: application/json
                 inventory-out:
                     destination: inventory-out
                 pick-out:
