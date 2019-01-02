@@ -42,11 +42,29 @@ spring:
             bindings:
                 output:
                     destination: topic-jhipster
+                customer-orders-out:
+                    destination: customer-orders-out
+                orders-out:
+                    destination: orders-out
+                    contentType: application/json
+                inventory-out:
+                    destination: inventory-out
+                pick-out:
+                    destination: pick-out
+                pack-out:
+                    destination: user-out
+                ship-out:
+                    destination: ship-out
+        config:
+            fail-fast: false
+            bus:
+                enabled: true
+                destination: springCloudBusOutput
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:postgresql://localhost:5432/postgres
-        username: postgres
-        password: postgres
+        url: jdbc:postgresql://${POSTGRES_HOST}/${POSTGRES_DB}
+        username: ${POSTGRES_USER}
+        password: ${POSTGRES_PWD}
         hikari:
             auto-commit: false
     jpa:
@@ -85,7 +103,7 @@ spring:
                 enabled: true
 
 server:
-    port: 6787
+    port: ${SERVER_PORT}
 
 # ===================================================================
 # JHipster specific properties
@@ -149,3 +167,21 @@ jhipster:
 # ===================================================================
 
 # application:
+#redis connections
+redis:
+    host=${REDIS_HOST}
+    port=${REDIS_PORT}
+
+# WMS Welcome Msg
+wms:
+    service:
+        ready:
+            msg: "Service is ready"
+        health:
+            msg: "Service is healthy"
+            
+shipengine:
+    url: https://api.shipengine.com/v1/labels
+    api-key: k3LXdQHLLOo3FVi91x9Iqj9GUZevB2VIubzByn8ZZ+I    
+
+
