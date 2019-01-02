@@ -49,6 +49,8 @@ spring:
                     contentType: application/json
                 inventory-out:
                     destination: inventory-out
+                cubing-out:
+                    destination: cubing-out
                 pick-out:
                     destination: pick-out
                 pack-out:
