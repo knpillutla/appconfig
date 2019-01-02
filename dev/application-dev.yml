@@ -55,8 +55,8 @@ spring:
                     destination: pick-out
                 pack-out:
                     destination: user-out
-                ship-out:
-                    destination: ship-out
+                shipment-out:
+                    destination: shipment-out
         config:
             fail-fast: false
             bus:
