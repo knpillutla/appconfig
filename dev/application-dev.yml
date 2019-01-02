@@ -133,14 +133,6 @@ jhipster:
         # exposed-headers: "Authorization,Link,X-Total-Count"
         # allow-credentials: true
         # max-age: 1800
-    security:
-        authentication:
-            jwt:
-                # This token must be encoded using Base64 (you can type `echo 'secret-key'|base64` on your command line)
-                base64-secret: Y2Y1NzUxMTAzYTI1YzE1NTEwY2VkYmUxYzI1YmFmNjQ5M2M0Mzg4ZDBhMGQxZmIyODI0YTY3YjZhNzVjNDY4NzY1ZGQzODQ1YmJlMzk5NDM4ODFlY2Y0MDg5YjMxYjU2MjZjNTNmNzIyZGI5NmEyZDY1MDczZTE0OWI0ZTVjYzM=
-                # Token is valid 24 hours
-                token-validity-in-seconds: 86400
-                token-validity-in-seconds-for-remember-me: 2592000
     mail: # specific JHipster mail property, for standard properties see MailProperties
         from: ${spring.application.name}@localhost
         base-url: http://127.0.0.1:6787
