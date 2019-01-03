@@ -43,7 +43,7 @@ spring:
                 output:
                     destination: topic-jhipster
                 customer-orders-in:
-                    destination: customer-orders-in-dev
+                    destination: customer-orders-in
                 customer-orders-out:
                     destination: customer-orders-out-dev
                 orders-out:
