@@ -43,22 +43,22 @@ spring:
                 output:
                     destination: topic-jhipster
                 customer-orders-in:
-                    destination: customer-orders-in
+                    destination: customer-orders-in-dev
                 customer-orders-out:
-                    destination: customer-orders-out
+                    destination: customer-orders-out-dev
                 orders-out:
-                    destination: orders-out
+                    destination: orders-out-dev
                     contentType: application/json
                 inventory-out:
-                    destination: inventory-out
+                    destination: inventory-out-dev
                 cubing-out:
-                    destination: cubing-out
+                    destination: cubing-out-dev
                 pick-out:
-                    destination: pick-out
+                    destination: pick-out-dev
                 pack-out:
-                    destination: user-out
+                    destination: user-out-dev
                 shipment-out:
-                    destination: shipment-out
+                    destination: shipment-out-dev
         config:
             fail-fast: false
             bus:
