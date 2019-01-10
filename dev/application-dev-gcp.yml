@@ -1,3 +1,4 @@
+
 # ===================================================================
 # Spring Boot configuration for the "dev" profile.
 #
@@ -15,8 +16,8 @@
 
 logging:
     level:
-        ROOT: DEBUG
-        io.github.jhipster: DEBUG
+        ROOT: INFO
+        io.github.jhipster: INFO
         com.threedsoft.${spring.application.name}: DEBUG
 
 spring:
@@ -40,8 +41,6 @@ spring:
                 binder:
                     brokers: ${KAFKA_HOST}
             bindings:
-                output:
-                    destination: topic-jhipster
                 customer-orders-in:
                     destination: customer-orders-in-dev
                 customer-orders-out:
@@ -71,6 +70,7 @@ spring:
         password: ${POSTGRES_PWD}
         hikari:
             auto-commit: false
+
     jpa:
         database-platform: io.github.jhipster.domain.util.FixedPostgreSQL82Dialect
         database: POSTGRESQL
@@ -86,6 +86,7 @@ spring:
             hibernate.cache.use_minimal_puts: true
             hibernate.cache.hazelcast.use_lite_member: true
             hibernate.jdbc.lob.non_contextual_creation: true
+
     liquibase:
         contexts: dev
     mail:
@@ -180,5 +181,3 @@ wms:
 shipengine:
     url: https://api.shipengine.com/v1/labels
     api-key: k3LXdQHLLOo3FVi91x9Iqj9GUZevB2VIubzByn8ZZ+I    
-
-
