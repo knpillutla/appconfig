@@ -1,3 +1,4 @@
+
 # ===================================================================
 # Spring Boot configuration for the "dev" profile.
 #
@@ -21,10 +22,9 @@ logging:
 
 spring:
     profiles:
-        active: prodgcp
+        active: dev
         include:
             - swagger
-            - zipkin
             # Uncomment to activate TLS for the dev profile
             #- tls
     devtools:
@@ -40,42 +40,24 @@ spring:
             kafka:
                 binder:
                     brokers: ${KAFKA_HOST}
-                    headers: spanId,spanSampled,spanProcessId,spanParentSpanId,spanTraceId,spanName,spanFlags,eventName,appname
             bindings:
-                output:
-                    destination: topic-jhipster
                 customer-orders-in:
-                    destination: customer-orders-in-prod
+                    destination: customer-orders-in-dev
                 customer-orders-out:
-                    destination: customer-orders-out-prod
-                orders-in:
-                    destination: orders-in-prod
+                    destination: customer-orders-out-dev
                 orders-out:
-                    destination: orders-out-prod
-                inventory-in:
-                    destination: inventory-in-prod
+                    destination: orders-out-dev
+                    contentType: application/json
                 inventory-out:
-                    destination: inventory-out-prod
-                cubing-in:
-                    destination: cubing-in-prod
+                    destination: inventory-out-dev
                 cubing-out:
-                    destination: cubing-out-prod
-                pick-in:
-                    destination: pick-in-prod
+                    destination: cubing-out-dev
                 pick-out:
-                    destination: pick-out-prod
-                pack-in:
-                    destination: pack-in-prod
+                    destination: pick-out-dev
                 pack-out:
-                    destination: pack-out-prod
-                sort-in:
-                    destination: sort-in-prod
-                sort-out:
-                    destination: sort-out-prod
-                shipment-in:
-                    destination: shipment-in-prod
+                    destination: user-out-dev
                 shipment-out:
-                    destination: shipment-out-prod
+                    destination: shipment-out-dev
         config:
             fail-fast: false
             bus:
@@ -88,6 +70,7 @@ spring:
         password: ${POSTGRES_PWD}
         hikari:
             auto-commit: false
+
     jpa:
         database-platform: io.github.jhipster.domain.util.FixedPostgreSQL82Dialect
         database: POSTGRESQL
@@ -117,12 +100,13 @@ spring:
         cache: false
     sleuth:
         sampler:
-            probability: 1.0 # report 100% of traces
-            percentage: 1.0
+            probability: 1 # report 100% of traces
     zipkin: # Use the "zipkin" Maven profile to have the Spring Cloud Zipkin dependencies
         base-url: http://localhost:9411
-        service:
-          name: customerorder
+        enabled: false
+        locator:
+            discovery:
+                enabled: true
 
 server:
     port: ${SERVER_PORT}
@@ -162,11 +146,11 @@ jhipster:
         prometheus:
             enabled: false #expose metrics via prometheus
         logs: # Reports Dropwizard metrics in the logs
-            enabled: true
+            enabled: false
             report-frequency: 60 # in seconds
     logging:
         logstash: # Forward logs to logstash over a socket, used by LoggingConfiguration
-            enabled: true
+            enabled: false
             host: localhost
             port: 5000
             queue-size: 512
@@ -197,5 +181,3 @@ wms:
 shipengine:
     url: https://api.shipengine.com/v1/labels
     api-key: k3LXdQHLLOo3FVi91x9Iqj9GUZevB2VIubzByn8ZZ+I    
-
-
