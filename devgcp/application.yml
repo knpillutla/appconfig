@@ -1,8 +1,8 @@
+
 # ===================================================================
-# Spring Boot configuration.
+# Spring Boot configuration for the "dev" profile.
 #
-# This configuration will be overridden by the Spring profile you use,
-# for example application-dev.yml if you use the "dev" profile.
+# This configuration overrides the application.yml file.
 #
 # More information on profiles: https://www.jhipster.tech/profiles/
 # More information on configuration properties: https://www.jhipster.tech/common-application-properties/
@@ -14,110 +14,102 @@
 # http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
 
-feign:
-    hystrix:
-        enabled: true
-#    client:
-#        config:
-#            default:
-#                connectTimeout: 5000
-#                readTimeout: 5000
-
-# See https://github.com/Netflix/Hystrix/wiki/Configuration
-hystrix:
-    command:
-        default:
-            execution:
-                isolation:
-                    strategy: SEMAPHORE
-# See https://github.com/spring-cloud/spring-cloud-netflix/issues/1330
-#                    thread:
-#                        timeoutInMilliseconds: 10000
-    shareSecurityContext: true
-
-management:
-    endpoints:
-        web:
-            base-path: /management
-            exposure:
-                include: ["configprops", "env", "health", "info", "threaddump", "logfile" ]
-    endpoint:
-        health:
-            show-details: when-authorized
-    info:
-        git:
-            mode: full
-    health:
-        mail:
-            enabled: false # When using the MailService, configure an SMTP server and set this to true
-    metrics:
-        enabled: false # http://micrometer.io/ is disabled by default, as we use http://metrics.dropwizard.io/ instead
+logging:
+    level:
+        ROOT: INFO
+        io.github.jhipster: INFO
+        com.threedsoft.${spring.application.name}: DEBUG
 
 spring:
-    autoconfigure:
-        exclude: org.springframework.boot.actuate.autoconfigure.metrics.jdbc.DataSourcePoolMetricsAutoConfiguration
-    application:
-        name: customerorder
     profiles:
-        # The commented value for `active` can be replaced with valid Spring profiles to load.
-        # Otherwise, it will be filled in by maven when building the WAR file
-        # Either way, it can be overridden by `--spring.profiles.active` value passed in the commandline or `-Dspring.profiles.active` set in `JAVA_OPTS`
-        active: #spring.profiles.active#
-    jpa:
-        open-in-view: false
-        properties:
-            hibernate.jdbc.time_zone: UTC
-        hibernate:
-            ddl-auto: none
-            naming:
-                physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
-                implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
-    messages:
-        basename: i18n/messages
-    mvc:
-        favicon:
-            enabled: false
-    thymeleaf:
-        mode: HTML
+        active: dev
+        include:
+            - swagger
+            # Uncomment to activate TLS for the dev profile
+            #- tls
+    devtools:
+        restart:
+            enabled: true
+        livereload:
+            enabled: false # we use Webpack dev server + BrowserSync for livereload
+    jackson:
+        serialization:
+            indent-output: true
+    cloud:
+        stream:
+            kafka:
+                binder:
+                    brokers: ${KAFKA_HOST}
+            bindings:
+                customer-orders-in:
+                    destination: customer-orders-in-dev
+                customer-orders-out:
+                    destination: customer-orders-out-dev
+                orders-out:
+                    destination: orders-out-dev
+                    contentType: application/json
+                inventory-out:
+                    destination: inventory-out-dev
+                cubing-out:
+                    destination: cubing-out-dev
+                pick-out:
+                    destination: pick-out-dev
+                pack-out:
+                    destination: user-out-dev
+                shipment-out:
+                    destination: shipment-out-dev
+        config:
+            fail-fast: false
+            bus:
+                enabled: true
+                destination: springCloudBusOutput
+    datasource:
+        type: com.zaxxer.hikari.HikariDataSource
+        url: jdbc:postgresql://${POSTGRES_HOST}/${POSTGRES_DB}
+        username: ${POSTGRES_USER}
+        password: ${POSTGRES_PWD}
+        hikari:
+            auto-commit: false
 
-# ===================================================================
-# OpenID Connect Settings. Default settings are for Keycloak in Docker.
-# Start Keycloak using `docker-compose -f src/main/docker/keycloak.yml up`.
-#
-# To use Okta, your settings should resemble the following:
-#
-# accessTokenUri: https://{yourOktaDomain}.com/oauth2/default/v1/token
-# userAuthorizationUri: https://{yourOktaDomain}.com/oauth2/default/v1/authorize
-# clientId: {copy after creating an OIDC app}
-# clientSecret: {copy after creating an OIDC app}
-# userInfoUri: https://{yourOktaDomain}.com/oauth2/default/v1/userinfo
-# tokenInfoUri: https://{yourOktaDomain}.com/oauth2/default/v1/introspect
-#
-# You can also override these properties using environment variables.
-# For example:
-#
-# export SECURITY_OAUTH2_CLIENT_CLIENT_ID="jhipster"
-# export SECURITY_OAUTH2_CLIENT_CLIENT_SECRET="38561a05"
-# ===================================================================
-security:
-    oauth2:
-        client:
-            client-id: internal
-            client-secret: internal
-        resource:
-            user-info-uri: http://localhost:9080/auth/realms/jhipster/protocol/openid-connect/userinfo
+    jpa:
+        database-platform: io.github.jhipster.domain.util.FixedPostgreSQL82Dialect
+        database: POSTGRESQL
+        show-sql: true
+        properties:
+            hibernate.id.new_generator_mappings: true
+            hibernate.connection.provider_disables_autocommit: true
+            hibernate.cache.use_second_level_cache: true
+            hibernate.cache.use_query_cache: false
+            hibernate.generate_statistics: true
+            hibernate.cache.region.factory_class: com.hazelcast.hibernate.HazelcastCacheRegionFactory
+            hibernate.cache.hazelcast.instance_name: ${spring.application.name}
+            hibernate.cache.use_minimal_puts: true
+            hibernate.cache.hazelcast.use_lite_member: true
+            hibernate.jdbc.lob.non_contextual_creation: true
+
+    liquibase:
+        contexts: dev
+    mail:
+        host: localhost
+        port: 25
+        username:
+        password:
+    messages:
+        cache-duration: PT1S # 1 second, see the ISO 8601 standard
+    thymeleaf:
+        cache: false
+    sleuth:
+        sampler:
+            probability: 1 # report 100% of traces
+    zipkin: # Use the "zipkin" Maven profile to have the Spring Cloud Zipkin dependencies
+        base-url: http://localhost:9411
+        enabled: false
+        locator:
+            discovery:
+                enabled: true
 
 server:
-    servlet:
-        context-path: /${spring.application.name}
-        session:
-            cookie:
-                http-only: true
-
-# Properties to be exposed on the /info management endpoint
-info:
-    # Comma separated list of profiles that will trigger the ribbon to show
-    display-ribbon-on-profiles: "dev"
+    port: ${SERVER_PORT}
 
 # ===================================================================
 # JHipster specific properties
@@ -126,31 +118,42 @@ info:
 # ===================================================================
 
 jhipster:
-    async:
-        core-pool-size: 2
-        max-pool-size: 50
-        queue-capacity: 10000
-    # By default CORS is disabled. Uncomment to enable.
-    #cors:
-        #allowed-origins: "*"
-        #allowed-methods: "*"
-        #allowed-headers: "*"
-        #exposed-headers: "Authorization,Link,X-Total-Count"
-        #allow-credentials: true
-        #max-age: 1800
-    mail:
-        from: customerorder@localhost
-    swagger:
-        default-include-pattern: /api/.*
-        title: customerorder API
-        description: customerorder API documentation
-        version: 0.0.1
-        terms-of-service-url:
-        contact-name:
-        contact-url:
-        contact-email:
-        license:
-        license-url:
+    http:
+        version: V_1_1 # To use HTTP/2 you will need to activate TLS (see application-tls.yml)
+    cache: # Cache configuration
+        hazelcast: # Hazelcast distributed cache
+            time-to-live-seconds: 3600
+            backup-count: 1
+            management-center: # Full reference is available at: http://docs.hazelcast.org/docs/management-center/3.9/manual/html/Deploying_and_Starting.html
+                enabled: false
+                update-interval: 3
+                url: http://localhost:8180/mancenter
+    # CORS is disabled by default on microservices, as you should access them through a gateway.
+    # If you want to enable it, please uncomment the configuration below.
+    # cors:
+        # allowed-origins: "*"
+        # allowed-methods: "*"
+        # allowed-headers: "*"
+        # exposed-headers: "Authorization,Link,X-Total-Count"
+        # allow-credentials: true
+        # max-age: 1800
+    mail: # specific JHipster mail property, for standard properties see MailProperties
+        from: ${spring.application.name}@localhost
+        base-url: http://127.0.0.1:6787
+    metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
+        jmx:
+            enabled: true
+        prometheus:
+            enabled: false #expose metrics via prometheus
+        logs: # Reports Dropwizard metrics in the logs
+            enabled: false
+            report-frequency: 60 # in seconds
+    logging:
+        logstash: # Forward logs to logstash over a socket, used by LoggingConfiguration
+            enabled: false
+            host: localhost
+            port: 5000
+            queue-size: 512
 
 # ===================================================================
 # Application specific properties
@@ -162,3 +165,19 @@ jhipster:
 # ===================================================================
 
 # application:
+#redis connections
+redis:
+    host=${REDIS_HOST}
+    port=${REDIS_PORT}
+
+# WMS Welcome Msg
+wms:
+    service:
+        ready:
+            msg: "Service is ready"
+        health:
+            msg: "Service is healthy"
+            
+shipengine:
+    url: https://api.shipengine.com/v1/labels
+    api-key: k3LXdQHLLOo3FVi91x9Iqj9GUZevB2VIubzByn8ZZ+I    
