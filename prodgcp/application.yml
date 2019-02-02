@@ -1,5 +1,5 @@
 # ===================================================================
-# Spring Boot configuration for the "dev" profile.
+# Spring Boot configuration for the "prod" profile.
 #
 # This configuration overrides the application.yml file.
 #
@@ -25,13 +25,13 @@ spring:
         include:
             - swagger
             - zipkin
-            # Uncomment to activate TLS for the dev profile
+            # Uncomment to activate TLS for the prod profile
             #- tls
-    devtools:
+    prodtools:
         restart:
             enabled: true
         livereload:
-            enabled: false # we use Webpack dev server + BrowserSync for livereload
+            enabled: false # we use Webpack prod server + BrowserSync for livereload
     jackson:
         serialization:
             indent-output: true
@@ -42,8 +42,6 @@ spring:
                     brokers: ${KAFKA_HOST}
                     headers: spanId,spanSampled,spanProcessId,spanParentSpanId,spanTraceId,spanName,spanFlags,eventName,appname
             bindings:
-                output:
-                    destination: topic-jhipster
                 customer-orders-in:
                     destination: customer-orders-in-prod
                 customer-orders-out:
@@ -76,6 +74,18 @@ spring:
                     destination: shipment-in-prod
                 shipment-out:
                     destination: shipment-out-prod
+                shipengine-in:
+                    destination: shipengine-in-prod
+                shipengine-out:
+                    destination: shipengine-out-prod
+                print-in:
+                    destination: print-in-prod
+                print-out:
+                    destination: print-out-prod
+                workflow-in:
+                    destination: workflow-in-prod
+                workflow-out:
+                    destination: workflow-out-prod
         config:
             fail-fast: false
             bus:
@@ -105,7 +115,7 @@ spring:
             hibernate.jdbc.lob.non_contextual_creation: true
 
     liquibase:
-        contexts: dev
+        contexts: prod
     mail:
         host: localhost
         port: 25
