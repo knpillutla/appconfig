@@ -1,6 +1,5 @@
-
 # ===================================================================
-# Spring Boot configuration for the "dev" profile.
+# Spring Boot configuration for the "prod" profile.
 #
 # This configuration overrides the application.yml file.
 #
@@ -22,16 +21,17 @@ logging:
 
 spring:
     profiles:
-        active: dev
+        active: prodgcp
         include:
             - swagger
-            # Uncomment to activate TLS for the dev profile
+            - zipkin
+            # Uncomment to activate TLS for the prod profile
             #- tls
-    devtools:
+    prodtools:
         restart:
             enabled: true
         livereload:
-            enabled: false # we use Webpack dev server + BrowserSync for livereload
+            enabled: false # we use Webpack prod server + BrowserSync for livereload
     jackson:
         serialization:
             indent-output: true
@@ -40,24 +40,52 @@ spring:
             kafka:
                 binder:
                     brokers: ${KAFKA_HOST}
+                    headers: spanId,spanSampled,spanProcessId,spanParentSpanId,spanTraceId,spanName,spanFlags,eventName,appname
             bindings:
                 customer-orders-in:
-                    destination: customer-orders-in-dev
+                    destination: customer-orders-in-prod
                 customer-orders-out:
-                    destination: customer-orders-out-dev
+                    destination: customer-orders-out-prod
+                orders-in:
+                    destination: orders-in-prod
                 orders-out:
-                    destination: orders-out-dev
-                    contentType: application/json
+                    destination: orders-out-prod
+                inventory-in:
+                    destination: inventory-in-prod
                 inventory-out:
-                    destination: inventory-out-dev
+                    destination: inventory-out-prod
+                cubing-in:
+                    destination: cubing-in-prod
                 cubing-out:
-                    destination: cubing-out-dev
+                    destination: cubing-out-prod
+                pick-in:
+                    destination: pick-in-prod
                 pick-out:
-                    destination: pick-out-dev
+                    destination: pick-out-prod
+                pack-in:
+                    destination: pack-in-prod
                 pack-out:
-                    destination: user-out-dev
+                    destination: pack-out-prod
+                sort-in:
+                    destination: sort-in-prod
+                sort-out:
+                    destination: sort-out-prod
+                shipment-in:
+                    destination: shipment-in-prod
                 shipment-out:
-                    destination: shipment-out-dev
+                    destination: shipment-out-prod
+                shipengine-in:
+                    destination: shipengine-in-prod
+                shipengine-out:
+                    destination: shipengine-out-prod
+                print-in:
+                    destination: print-in-prod
+                print-out:
+                    destination: print-out-prod
+                workflow-in:
+                    destination: workflow-in-prod
+                workflow-out:
+                    destination: workflow-out-prod
         config:
             fail-fast: false
             bus:
@@ -70,7 +98,6 @@ spring:
         password: ${POSTGRES_PWD}
         hikari:
             auto-commit: false
-
     jpa:
         database-platform: io.github.jhipster.domain.util.FixedPostgreSQL82Dialect
         database: POSTGRESQL
@@ -88,7 +115,7 @@ spring:
             hibernate.jdbc.lob.non_contextual_creation: true
 
     liquibase:
-        contexts: dev
+        contexts: prod
     mail:
         host: localhost
         port: 25
@@ -100,13 +127,12 @@ spring:
         cache: false
     sleuth:
         sampler:
-            probability: 1 # report 100% of traces
+            probability: 1.0 # report 100% of traces
+            percentage: 1.0
     zipkin: # Use the "zipkin" Maven profile to have the Spring Cloud Zipkin dependencies
         base-url: http://localhost:9411
-        enabled: false
-        locator:
-            discovery:
-                enabled: true
+        service:
+          name: customerorder
 
 server:
     port: ${SERVER_PORT}
@@ -146,11 +172,11 @@ jhipster:
         prometheus:
             enabled: false #expose metrics via prometheus
         logs: # Reports Dropwizard metrics in the logs
-            enabled: false
+            enabled: true
             report-frequency: 60 # in seconds
     logging:
         logstash: # Forward logs to logstash over a socket, used by LoggingConfiguration
-            enabled: false
+            enabled: true
             host: localhost
             port: 5000
             queue-size: 512
@@ -181,3 +207,9 @@ wms:
 shipengine:
     url: https://api.shipengine.com/v1/labels
     api-key: k3LXdQHLLOo3FVi91x9Iqj9GUZevB2VIubzByn8ZZ+I    
+
+threedsoft:
+  wms:
+    orderplannerhost: "https://the3dsoft.com"
+    pickhost: "https://the3dsoft.com"
+    packhost: "https://the3dsoft.com"
