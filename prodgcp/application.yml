@@ -210,6 +210,6 @@ shipengine:
 
 threedsoft:
   wms:
-    orderplannerhost: ${ORDERPLANNER_SERVICE_URL}
-    pickhost: ${PICK_SERVICE_URL}
-    packhost: ${PACK_SERVICE_URL}
+    orderplannerhost: "https://the3dsoft.com"
+    pickhost: "https://the3dsoft.com"
+    packhost: "https://the3dsoft.com"
