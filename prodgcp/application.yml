@@ -208,4 +208,8 @@ shipengine:
     url: https://api.shipengine.com/v1/labels
     api-key: k3LXdQHLLOo3FVi91x9Iqj9GUZevB2VIubzByn8ZZ+I    
 
-
+threedsoft:
+  wms:
+    orderplannerhost: "the3dsoft.com"
+    pickhost: "the3dsoft.com"
+    packhost: "the3dsoft.com"
